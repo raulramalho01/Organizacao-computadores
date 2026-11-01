@@ -2,7 +2,18 @@
 
 Projeto da disciplina de Organização de Computadores (DIMAp/UFRN): processador RISC-V (RV32I) monociclo em SystemVerilog, com as instruções `max`, `sign` e `mac` e um acelerador de 2 multiplicadores.
 
-## O que falta fazer
+## Relatório
+
+https://docs.google.com/document/d/1qvIvZlo1Wmy7WpcNyDPJ4bAcFfBk92kDYAt1HLVKzis/edit?usp=sharing
+
+## Componentes
+Raul Ramalho
+
+Ryan Silvestre
+
+Rômulo Alves
+
+## O que foi feito:
 
 ### Entregáveis
 

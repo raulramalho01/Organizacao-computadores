@@ -1,0 +1,37 @@
+00500093 // programa original
+00c00113 // programa original
+002081b3 // programa original
+40208233 // programa original
+002092b3 // programa original
+0020a333 // programa original
+0020b3b3 // programa original
+0020c433 // programa original
+0020d4b3 // programa original
+4020d533 // programa original
+0020e5b3 // programa original
+0020f633 // programa original
+00700693 // addi x13, x0, 7
+ffd00713 // addi x14, x0, -3
+ff600813 // addi x16, x0, -10
+40e6e8b3 // max  x17, x13, x14   positivo x negativo: 7 (sem sinal daria -3)
+40d76933 // max  x18, x14, x13   ordem invertida: 7
+410769b3 // max  x19, x14, x16   dois negativos: -3
+40d6ea33 // max  x20, x13, x13   iguais: 7
+4006cab3 // sign x21, x13        positivo: 1
+40074b33 // sign x22, x14        negativo: -1
+40004bb3 // sign x23, x0         zero: 0
+00a00c13 // addi x24, x0, 10
+40169c33 // mac  x24, x13, x1    10 + 7*5 = 45
+000c0cb3 // add  x25, x24, x0    guarda 45
+40171c33 // mac  x24, x14, x1    45 + (-3)*5 = 30
+000c0d33 // add  x26, x24, x0    guarda 30
+40e71c33 // mac  x24, x14, x14   30 + (-3)*(-3) = 39
+00300d93 // addi x27, x0, 3
+41bd9db3 // mac  x27, x27, x27   rd = rs1 = rs2: 3 + 3*3 = 12
+40d69033 // mac  x0, x13, x13    x0 continua 0
+0016ee33 // or   x28, x13, x1    mesmo funct3 do max: 7
+0016ceb3 // xor  x29, x13, x1    mesmo funct3 do sign: 2
+00109f33 // sll  x30, x1, x1     mesmo funct3 do mac: 160
+03f02f83 // lw   x31, 63(x0)     ultima palavra da memoria: ffffffff
+03802423 // sw   x24, 40(x0)     fim do teste (COMPLETE do expected)
+0000006f // jal  x0, 0           fim do programa

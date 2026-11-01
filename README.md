@@ -13,18 +13,24 @@ Ryan Silvestre
 
 Rômulo Alves
 
+## Simulação
+
+
+
+A especificação do acelerador está em `src/Accelerator2Mul.sv` e os resultados registrados estão em `sim/resultados/`.
+
 ## O que foi feito:
 
 ### Entregáveis
 
-- [ ] **1. Código SystemVerilog do acelerador de 2 multiplicadores**
-  - [ ] Definir a especificação do acelerador
-  - [ ] Implementar o módulo
-- [ ] **2. Testbenches e resultados de simulação**
-  - [ ] Incluir o `top.sv` e os arquivos `R_type.txt` e `Data_Memory_Load.txt`
-  - [ ] Validar `max`, `sign` e `mac` por simulação
-  - [ ] Criar o testbench do acelerador
-  - [ ] Registrar os resultados de simulação
+- [x] **1. Código SystemVerilog do acelerador de 2 multiplicadores**
+  - [x] Definir a especificação do acelerador
+  - [x] Implementar o módulo
+- [x] **2. Testbenches e resultados de simulação**
+  - [x] Incluir o `top.sv` e os arquivos `R_type.txt` e `Data_Memory_Load.txt`
+  - [x] Validar `max`, `sign` e `mac` por simulação
+  - [x] Criar o testbench do acelerador
+  - [x] Registrar os resultados de simulação
 - [ ] **3. Diagrama de blocos da arquitetura**
 - [ ] **4. Código do processador RISC-V com o acelerador integrado**
   - [x] Adicionar `max`, `sign` e `mac` ao processador monociclo
@@ -37,5 +43,5 @@ Rômulo Alves
 
 ### Repositório
 
-- [ ] Adicionar o código do processador
+- [x] Adicionar o código do processador
 - [ ] Adicionar o relatório

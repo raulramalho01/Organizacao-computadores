@@ -44,6 +44,18 @@ def mac(rd, rs1, rs2):
     return r_type(0b0100000, rs2, rs1, 0b001, rd)
 
 
+def mac2(rs1, rs2, rd=0):
+    return r_type(0b0100000, rs2, rs1, 0b010, rd)
+
+
+def macr(rd):
+    return r_type(0b0100000, 0, 0, 0b011, rd)
+
+
+def macz():
+    return r_type(0b0100000, 0, 0, 0b111, 0)
+
+
 def or_(rd, rs1, rs2):
     return r_type(0, rs2, rs1, 0b110, rd)
 
@@ -89,6 +101,20 @@ NOVOS = [
     (xor(29, 13, 1), "xor  x29, x13, x1    mesmo funct3 do sign: 2"),
     (sll(30, 1, 1), "sll  x30, x1, x1     mesmo funct3 do mac: 160"),
     (lw(31, 63), "lw   x31, 63(x0)     ultima palavra da memoria: ffffffff"),
+    # Acelerador. Pares: x13/x14 = 7, -3; x1/x2 = 5, 12; x14/x15 = -3, -1; x31/x0 = -1, 0
+    (mac2(13, 1, rd=16), "mac2 x13, x1         acc = 7*5 + (-3)*12 = -1 (rd=x16 nao muda)"),
+    (macr(15), "macr x15             x15 = -1"),
+    (sw(15, 41), "sw   x15, 41(x0)"),
+    (mac2(13, 1), "mac2 x13, x1         acumula: acc = -2"),
+    (mac2(14, 13), "mac2 x14, x13        acc = -2 + (-3)*7 + (-1)*(-3) = -20"),
+    (macr(15), "macr x15             x15 = -20"),
+    (sw(15, 42), "sw   x15, 42(x0)"),
+    (macz(), "macz                 acc = 0"),
+    (macr(15), "macr x15             x15 = 0"),
+    (sw(15, 43), "sw   x15, 43(x0)"),
+    (mac2(31, 1), "mac2 x31, x1         x31 + 1 da a volta para x0: acc = (-1)*5 + 0*12 = -5"),
+    (macr(15), "macr x15             x15 = -5"),
+    (sw(15, 44), "sw   x15, 44(x0)"),
     (sw(24, 40), "sw   x24, 40(x0)     fim do teste (COMPLETE do expected)"),
     (HALT, "jal  x0, 0           fim do programa"),
 ]

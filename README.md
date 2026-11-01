@@ -17,7 +17,15 @@ Rômulo Alves
 
 
 
-A especificação do acelerador está em `src/Accelerator2Mul.sv` e os resultados registrados estão em `sim/resultados/`.
+A especificação do acelerador está em `src/Accelerator2Mul.sv`, os resultados registrados estão em `sim/resultados/` e o diagrama de blocos está em `docs/diagrama_blocos.svg`.
+
+O acelerador é usado por três instruções do tipo R (opcode `0110011`, funct7 `0100000`):
+
+| Instrução | funct3 | Operação |
+|---|---|---|
+| `mac2 rs1, rs2` | `010` | `acc += rs1*rs2 + (rs1+1)*(rs2+1)` |
+| `macr rd` | `011` | `rd = acc[31:0]` |
+| `macz` | `111` | `acc = 0` |
 
 ## O que foi feito:
 
@@ -31,10 +39,10 @@ A especificação do acelerador está em `src/Accelerator2Mul.sv` e os resultado
   - [x] Validar `max`, `sign` e `mac` por simulação
   - [x] Criar o testbench do acelerador
   - [x] Registrar os resultados de simulação
-- [ ] **3. Diagrama de blocos da arquitetura**
-- [ ] **4. Código do processador RISC-V com o acelerador integrado**
+- [x] **3. Diagrama de blocos da arquitetura**
+- [x] **4. Código do processador RISC-V com o acelerador integrado**
   - [x] Adicionar `max`, `sign` e `mac` ao processador monociclo
-  - [ ] Integrar o acelerador ao processador
+  - [x] Integrar o acelerador ao processador
 - [ ] **5. Programa de teste demonstrando a execução da operação**
 - [ ] **6. Relatório técnico com decisões arquiteturais e resultados**
   - [x] Documentar a codificação e as mudanças no controle e no caminho de dados de `max`, `sign` e `mac`

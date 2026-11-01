@@ -24,7 +24,12 @@ module RegisterFile #(parameter XLEN = 32, parameter REG_ADDR_WIDTH = 5)
     input  logic [REG_ADDR_WIDTH-1:0]   read_address_2_i,  // operando de entrada 2
     // adicionadas
     input logic [REG_ADDR_WIDTH-1:0]   read_address_3_i, // operando de entrada 3 (para o MAC)
-    output logic [XLEN-1:0]             read_data_3_o  // transporte de valores lidos do registrador 3
+    output logic [XLEN-1:0]             read_data_3_o,  // transporte de valores lidos do registrador 3
+    // portas do acelerador (segundo elemento dos pares da instrução mac2)
+    input logic [REG_ADDR_WIDTH-1:0]   read_address_4_i, // rs1 + 1
+    output logic [XLEN-1:0]             read_data_4_o,
+    input logic [REG_ADDR_WIDTH-1:0]   read_address_5_i, // rs2 + 1
+    output logic [XLEN-1:0]             read_data_5_o
 );
 
     logic [XLEN-1:0]register [XLEN-1:0]; 
@@ -34,6 +39,8 @@ module RegisterFile #(parameter XLEN = 32, parameter REG_ADDR_WIDTH = 5)
         assign read_data_1_o = (read_address_1_i == 0) ? 0 : register[read_address_1_i];
         assign read_data_2_o = (read_address_2_i == 0) ? 0 : register[read_address_2_i];
         assign read_data_3_o = (read_address_3_i == 0) ? 0 : register[read_address_3_i]; // pro terceiro registrador dnv (ryab tb mexeu aq)
+        assign read_data_4_o = (read_address_4_i == 0) ? 0 : register[read_address_4_i];
+        assign read_data_5_o = (read_address_5_i == 0) ? 0 : register[read_address_5_i];
     end
 
     always_ff @(negedge clk_i)

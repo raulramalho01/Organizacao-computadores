@@ -96,6 +96,7 @@ typedef enum logic [RD_MUX_SEL_LEN-1:0] {
     RD_MUX_BCU,         // Escreve o resultado do comparador (slt, slti, etc. gerando 0 ou 1)
     RD_MUX_IMM,         // Escreve diretamente o valor imediato (instrução lui)
     RD_MUX_PC_N,        // Escreve PC + 4 (instruções de salto com link: jal, jalr)
+    RD_MUX_ACC,         // Escreve o resultado do acelerador (instrução macr)
     RD_MUX_N_A          // Não aplicável / instrução não grava em registrador (ex: sw, beq)
 } write_data_select_e;
 

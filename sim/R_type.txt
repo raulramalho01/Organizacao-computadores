@@ -33,5 +33,18 @@ ff600813 // addi x16, x0, -10
 0016ceb3 // xor  x29, x13, x1    mesmo funct3 do sign: 2
 00109f33 // sll  x30, x1, x1     mesmo funct3 do mac: 160
 03f02f83 // lw   x31, 63(x0)     ultima palavra da memoria: ffffffff
+4016a833 // mac2 x13, x1         acc = 7*5 + (-3)*12 = -1 (rd=x16 nao muda)
+400037b3 // macr x15             x15 = -1
+02f024a3 // sw   x15, 41(x0)
+4016a033 // mac2 x13, x1         acumula: acc = -2
+40d72033 // mac2 x14, x13        acc = -2 + (-3)*7 + (-1)*(-3) = -20
+400037b3 // macr x15             x15 = -20
+02f02523 // sw   x15, 42(x0)
+40007033 // macz                 acc = 0
+400037b3 // macr x15             x15 = 0
+02f025a3 // sw   x15, 43(x0)
+401fa033 // mac2 x31, x1         x31 + 1 da a volta para x0: acc = (-1)*5 + 0*12 = -5
+400037b3 // macr x15             x15 = -5
+02f02623 // sw   x15, 44(x0)
 03802423 // sw   x24, 40(x0)     fim do teste (COMPLETE do expected)
 0000006f // jal  x0, 0           fim do programa

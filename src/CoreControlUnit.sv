@@ -32,6 +32,8 @@
 //   - load_store_type_o          : Tipo de acesso à memória (byte, half, word)
 //   - data_memory_write_enable_o : 1 = Grava na memória RAM de dados (store)
 //   - reg_write_data_sel_o       : MUX de write-back para rd (ALU, memória, PC+4, etc.)
+//   - acc_valid_o                : 1 = O acelerador acumula os operandos deste ciclo (mac2)
+//   - acc_clear_o                : 1 = O acelerador zera o acumulador (macz)
 // ==============================================================================
 
 import risc_v_32_i_pkg::*;
@@ -48,6 +50,8 @@ module CoreControlUnit #(parameter XLEN = 32)
     output load_store_type_e        load_store_type_o,
     output logic                    data_memory_write_enable_o,
     output write_data_select_e      reg_write_data_sel_o,
+    output logic                    acc_valid_o,
+    output logic                    acc_clear_o,
     input logic [6:0]               op_code_i,
     input logic [2:0]               funct3_i,
     input logic                     funct7_bit5_i,
@@ -69,6 +73,9 @@ module CoreControlUnit #(parameter XLEN = 32)
 
     always_comb
     begin
+        // Só as instruções do acelerador ativam estes sinais
+        acc_valid_o = 1'b0;
+        acc_clear_o = 1'b0;
 
         unique case(op_code_i)
             // ==================================================================
@@ -175,6 +182,31 @@ module CoreControlUnit #(parameter XLEN = 32)
                             comp_op_sel_o = OP_BUNKNOWN;
                             execute_port_b_sel_o = 1'b1;
                             reg_write_data_sel_o = RD_MUX_ALU;
+                            end
+                    4'b1010: // mac2 rs1, rs2 -> acc += rs1*rs2 + (rs1+1)*(rs2+1), não escreve em rd
+                            begin
+                            alu_op_sel_o = OP_UNKNOWN;
+                            comp_op_sel_o = OP_BUNKNOWN;
+                            execute_port_b_sel_o = 1'b1;
+                            reg_write_enable_o = 1'b0;
+                            reg_write_data_sel_o = RD_MUX_N_A;
+                            acc_valid_o = 1'b1;
+                            end
+                    4'b1011: // macr rd -> rd = acc[31:0]
+                            begin
+                            alu_op_sel_o = OP_UNKNOWN;
+                            comp_op_sel_o = OP_BUNKNOWN;
+                            execute_port_b_sel_o = 1'b1;
+                            reg_write_data_sel_o = RD_MUX_ACC;
+                            end
+                    4'b1111: // macz -> acc = 0, não escreve em rd
+                            begin
+                            alu_op_sel_o = OP_UNKNOWN;
+                            comp_op_sel_o = OP_BUNKNOWN;
+                            execute_port_b_sel_o = 1'b1;
+                            reg_write_enable_o = 1'b0;
+                            reg_write_data_sel_o = RD_MUX_N_A;
+                            acc_clear_o = 1'b1;
                             end
                     default: // importante: eu me liguei dps que esse tal de op_unknown é meio q um comportamento default mesmo, tem em boa parte dos cantos. não é erro não.
                             begin

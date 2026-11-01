@@ -1,2 +1,2 @@
-R_type TEST: completion detected after 36 cycles
+R_type TEST: completion detected after 49 cycles
 R_type TEST: PASS

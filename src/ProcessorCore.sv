@@ -45,11 +45,6 @@ module ProcessorCore
     logic [31:0]reg_source_1;
     logic [31:0]reg_source_2;
     logic [31:0]reg_source_3;
-    logic [31:0]reg_source_4;
-    logic [31:0]reg_source_5;
-    logic [31:0]acc_result;
-    logic acc_valid;
-    logic acc_clear;
 
     logic [31:0]alu_port_a;
     logic [31:0]alu_port_b;
@@ -102,17 +97,13 @@ module ProcessorCore
         .read_data_1_o      (reg_source_1),
         .read_data_2_o      (reg_source_2),
         .read_data_3_o      (reg_source_3),
-        .read_data_4_o      (reg_source_4),
-        .read_data_5_o      (reg_source_5),
         .clk_i              (clk_i),
         .write_enable_i     (reg_write_enable),
         .write_data_i       (reg_data),
         .write_address_i    (instruction[11:7]),
         .read_address_1_i   (instruction[19:15]),
         .read_address_2_i   (instruction[24:20]),
-        .read_address_3_i   (instruction[11:7]),
-        .read_address_4_i   (instruction[19:15] + 5'd1),
-        .read_address_5_i   (instruction[24:20] + 5'd1)
+        .read_address_3_i   (instruction[11:7])
     );
 
     ImmediateSignExtend #(.XLEN(XLEN)) ise
@@ -134,8 +125,6 @@ module ProcessorCore
         .load_store_type_o                (load_store_type),
         .data_memory_write_enable_o       (data_memory_write_enable),
         .reg_write_data_sel_o             (reg_write_data_sel),
-        .acc_valid_o                      (acc_valid),
-        .acc_clear_o                      (acc_clear),
         .op_code_i                        (instruction[6:0]),
         .funct3_i                         (instruction[14:12]),
         .funct7_bit5_i                    (instruction[30]),
@@ -144,7 +133,7 @@ module ProcessorCore
 
     assign alu_port_a = execute_port_a_sel ? reg_source_1 : PC;
     assign alu_port_b = execute_port_b_sel ? reg_source_2 : immediate;
-    assign alu_port_c = reg_source_3; // pro terceiro registrador dnv
+    assign alu_port_c = reg_source_3;
     assign comp_port_a = reg_source_1;
     assign comp_port_b = execute_port_b_sel ? immediate : reg_source_2;
 
@@ -163,25 +152,6 @@ module ProcessorCore
         .comp_port_a_i    (comp_port_a),
         .comp_port_b_i    (comp_port_b),
         .comp_op_sel_i    (comp_op_sel)
-    );
-
-    // Acelerador de 2 multiplicadores. O mac2 não escreve em registrador, então os
-    // operandos ficam estáveis até a borda de subida que encerra a instrução. O macr
-    // seguinte já lê o valor atualizado, sem precisar de espera.
-    Accelerator2Mul #(.XLEN(XLEN)) accelerator
-    (
-        .clk_i      (clk_i),
-        .reset_i    (reset_i),
-        .clear_i    (acc_clear),
-        .valid_i    (acc_valid),
-        .pair_i     (1'b1),
-        .a0_i       (reg_source_1),
-        .b0_i       (reg_source_2),
-        .a1_i       (reg_source_4),
-        .b1_i       (reg_source_5),
-        .acc_o      (),
-        .result_o   (acc_result),
-        .done_o     ()
     );
 
     LoadAndStoreUnit #(.XLEN(XLEN)) lsu
@@ -203,12 +173,11 @@ module ProcessorCore
     begin
         unique case(reg_write_data_sel)
             RD_MUX_DMEM:    reg_data = dmem_data;
-             RD_MUX_ALU:    reg_data = alu_output;
-             RD_MUX_BCU:    reg_data = {31'b0, branch_enable};
-             RD_MUX_IMM:    reg_data = immediate;
+            RD_MUX_ALU:    reg_data = alu_output;
+            RD_MUX_BCU:    reg_data = {31'b0, branch_enable};
+            RD_MUX_IMM:    reg_data = immediate;
             RD_MUX_PC_N:    reg_data = pc_next;
-             RD_MUX_ACC:    reg_data = acc_result;
-                default:    reg_data = {XLEN{1'bz}};
+            default:    reg_data = {XLEN{1'bz}};
         endcase
     end
 

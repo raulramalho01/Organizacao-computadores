@@ -1,2 +1,0 @@
-tb_Accelerator2Mul: 1018 verificacoes, 0 erros
-RESULTADO: PASS

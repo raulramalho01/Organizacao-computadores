@@ -22,9 +22,6 @@ module InstructionMemory
         $readmemh("R_type.txt",instruction); // use the right txt file for testing
     end
 
-    always_comb
-    begin
-        assign instruction_data_o = instruction[instruction_address_i[31:2]];
-    end
+    assign instruction_data_o = instruction[instruction_address_i[31:2]];
 
 endmodule

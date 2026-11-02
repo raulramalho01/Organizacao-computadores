@@ -161,22 +161,22 @@ module CoreControlUnit #(parameter XLEN = 32)
                             execute_port_b_sel_o = 1'b1;
                             reg_write_data_sel_o = RD_MUX_ALU;
                             end
-                    // inserção das novas instruções eu vou é deixar aqui msm
-                    4'b1110: // esse aqui vai ser do max
+                    // inserção das novas instruções
+                    4'b1110:
                             begin
                             alu_op_sel_o = OP_MAX;
                             comp_op_sel_o = OP_BUNKNOWN;
                             execute_port_b_sel_o = 1'b1;
                             reg_write_data_sel_o = RD_MUX_ALU;
                             end                                
-                    4'b1100: // esse aqui vai ser do home sign
+                    4'b1100:
                             begin
                             alu_op_sel_o = OP_SIGN;
                             comp_op_sel_o = OP_BUNKNOWN;
                             execute_port_b_sel_o = 1'b1;
                             reg_write_data_sel_o = RD_MUX_ALU;
                             end
-                    4'b1001: // esse vai ser do meq
+                    4'b1001:
                             begin
                             alu_op_sel_o = OP_MAC;
                             comp_op_sel_o = OP_BUNKNOWN;
@@ -360,7 +360,7 @@ module CoreControlUnit #(parameter XLEN = 32)
                            end
                     3'b101:
                            begin
-                           alu_op_sel_o = alu_select_e'((funct7_bit5_i)? OP_SRA : OP_SRL);
+                           alu_op_sel_o = (funct7_bit5_i) ? OP_SRA : OP_SRL;
                            comp_op_sel_o = OP_BUNKNOWN;
                            execute_port_b_sel_o = 1'b0;
                            reg_write_data_sel_o = RD_MUX_ALU;

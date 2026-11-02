@@ -2,3 +2,4 @@
 work/
 transcript
 *.wlf
+sim_build/**

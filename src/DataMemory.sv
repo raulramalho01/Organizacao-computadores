@@ -24,10 +24,7 @@ module DataMemory
         $readmemh("Data_Memory_Load.txt",data);
     end
 
-    always_comb
-    begin
-        assign read_data_o = data[address_i[31:0]];
-    end
+    assign read_data_o = data[address_i[31:0]];
 
     always_ff @(posedge clk_i)
     begin

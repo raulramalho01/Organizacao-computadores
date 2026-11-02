@@ -43,7 +43,7 @@ O acelerador é usado por três instruções do tipo R (opcode `0110011`, funct7
 - [x] **4. Código do processador RISC-V com o acelerador integrado**
   - [x] Adicionar `max`, `sign` e `mac` ao processador monociclo
   - [x] Integrar o acelerador ao processador
-- [ ] **5. Programa de teste demonstrando a execução da operação**
+- [x] **5. Programa de teste demonstrando a execução da operação**
 - [ ] **6. Relatório técnico com decisões arquiteturais e resultados**
   - [x] Documentar a codificação e as mudanças no controle e no caminho de dados de `max`, `sign` e `mac`
   - [ ] Documentar o acelerador

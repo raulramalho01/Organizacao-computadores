@@ -1,0 +1,29 @@
+{
+  "name": "RISC-V-OC",
+  "build": {
+    "dockerfile": "Dockerfile"
+  },
+  "customizations": {
+    "vscode": {
+      "settings": {
+        "files.associations": {
+          "*.sv": "systemverilog",
+          "*.svh": "systemverilog",
+          "*.v": "verilog"
+        },
+        "verilog.linting.linter": "iverilog",
+        "verilog.linting.iverilog.arguments": "-g2012",
+        "systemverilog.compiler": "iverilog",
+        "systemverilog.compileOnSave": false
+      },
+      "extensions": [
+        "mshr-h.VerilogHDL",
+        "eirikpre.systemverilog",
+        "ms-python.python",
+        "dan-c-underwood.riscv"
+      ]
+    }
+  },
+  "remoteUser": "vscode"
+}
+

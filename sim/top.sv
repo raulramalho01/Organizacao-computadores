@@ -105,7 +105,8 @@ module top
         if (!$value$plusargs("TERMINATION=%s", termination_mode))
             termination_mode = "completion_store";
         instruction_count_target = 0;
-        void'($value$plusargs("INSTRUCTION_COUNT=%d", instruction_count_target));
+        if (!$value$plusargs("INSTRUCTION_COUNT=%d", instruction_count_target))
+            instruction_count_target = 0;
         if (!$value$plusargs("TEST=%s", test_name))
             test_name = "L_S_type";
         expected_file_name = {"expected/", test_name, "_expected.txt"};

@@ -37,7 +37,7 @@ parameter REG_ADDR_WIDTH = 5;   // Largura do endereço do banco de registradore
 // ------------------------------------------------------------------------------
 parameter IMM_SEL_LEN = 3;
 
-typedef enum logic[IMM_SEL_LEN-1:0] {
+typedef enum logic [2:0] {
     IMM_B_TYPE,         // Formato B: Desvios condicionais (beq, bne, blt, etc.)
     IMM_S_TYPE,         // Formato S: Armazenamento em memória (sw, sh, sb)
     IMM_U_TYPE,         // Formato U: Imediatos superiores de 20 bits (lui, auipc)
@@ -53,7 +53,7 @@ typedef enum logic[IMM_SEL_LEN-1:0] {
 // ------------------------------------------------------------------------------
 parameter ALU_SEL_LEN = 4;
 
-typedef enum logic [ALU_SEL_LEN-1:0] {
+typedef enum logic [3:0] {
     OP_ADD,             // Soma: A + B
     OP_SUB,             // Subtração: A - B
     OP_AND,             // E lógico bit a bit: A & B
@@ -64,8 +64,8 @@ typedef enum logic [ALU_SEL_LEN-1:0] {
     OP_SRA,             // Deslocamento para direita aritmético (com sinal): A >>> B[4:0]
     OP_MAX,             // Operação de máximo: retorna o maior entre A e B
     OP_SIGN,            // Operação de sinal
-    OP_MAC,              // Acumulador de multiplicação: A + (B * C) 
-    OP_UNKNOWN         // Operação desconhecida  -- > ryan esteve aqui muahahaha
+    OP_MAC,             // Acumulador de multiplicação: A + (B * C) 
+    OP_UNKNOWN          // Operação desconhecida  -- > ryan esteve aqui muahahaha
 } alu_select_e;
 
 // ------------------------------------------------------------------------------
@@ -74,7 +74,7 @@ typedef enum logic [ALU_SEL_LEN-1:0] {
 // ------------------------------------------------------------------------------
 parameter BRANCH_SEL_LEN = 3;
 
-typedef enum logic [BRANCH_SEL_LEN-1:0] {
+typedef enum logic [2:0] {
     OP_BEQ,             // Branch se igual: A == B
     OP_BNE,             // Branch se diferente: A != B
     OP_BLT,             // Branch se menor com sinal: $signed(A) < $signed(B)
@@ -90,7 +90,7 @@ typedef enum logic [BRANCH_SEL_LEN-1:0] {
 // ------------------------------------------------------------------------------
 parameter RD_MUX_SEL_LEN = 3;
 
-typedef enum logic [RD_MUX_SEL_LEN-1:0] {
+typedef enum logic [2:0] {
     RD_MUX_DMEM,        // Escreve o dado lido da memória RAM (instruções de Load: lw, lh, etc.)
     RD_MUX_ALU,         // Escreve o resultado da ALU (add, sub, addi, and, etc.)
     RD_MUX_BCU,         // Escreve o resultado do comparador (slt, slti, etc. gerando 0 ou 1)
@@ -106,7 +106,7 @@ typedef enum logic [RD_MUX_SEL_LEN-1:0] {
 // ------------------------------------------------------------------------------
 parameter LOAD_STORE_TYPE_LEN = 4;
 
-typedef enum logic [LOAD_STORE_TYPE_LEN-1:0]
+typedef enum logic [3:0]
 {
     L_W,                // Load Word (32 bits)
     L_H,                // Load Halfword com sinal (16 bits)

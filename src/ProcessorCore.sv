@@ -44,10 +44,10 @@ module ProcessorCore
     logic [31:0]immediate;
     logic [31:0]reg_source_1;
     logic [31:0]reg_source_2;
-    logic [31:0]reg_source_3; // novamente, para o MAC (o mac tá bagunçando geral kkkkkkkkkkkkkkkkkkkkkkkkkk)
-    logic [31:0]reg_source_4; // rs1 + 1, para o mac2
-    logic [31:0]reg_source_5; // rs2 + 1, para o mac2
-    logic [31:0]acc_result;   // acc[31:0], para o macr
+    logic [31:0]reg_source_3;
+    logic [31:0]reg_source_4;
+    logic [31:0]reg_source_5;
+    logic [31:0]acc_result;
     logic acc_valid;
     logic acc_clear;
 
@@ -110,8 +110,7 @@ module ProcessorCore
         .write_address_i    (instruction[11:7]),
         .read_address_1_i   (instruction[19:15]),
         .read_address_2_i   (instruction[24:20]),
-        .read_address_3_i   (instruction[11:7]), // pro terceiro registrador dnv
-        // segundo elemento dos pares do mac2; x31 + 1 dá a volta para x0, que vale 0
+        .read_address_3_i   (instruction[11:7]),
         .read_address_4_i   (instruction[19:15] + 5'd1),
         .read_address_5_i   (instruction[24:20] + 5'd1)
     );
@@ -154,7 +153,7 @@ module ProcessorCore
         .alu_o          (alu_output),
         .alu_port_a_i   (alu_port_a),
         .alu_port_b_i   (alu_port_b),
-        .alu_port_c_i   (alu_port_c), // pro terceiro registrador dnv (ryan steven aqui)
+        .alu_port_c_i   (alu_port_c),
         .alu_op_sel_i   (alu_op_sel)
     );
 
